@@ -24,18 +24,21 @@ import com.android.lab.androidattendancesystem.helper.DatabaseManager;
  * Created by wesix on 2/3/18.
  */
 
-public class StudentHomePage extends AppCompatActivity {
+public class TeacherDashboardActivity extends AppCompatActivity {
+
 
     Activity activity;
     Context context;
-    Button mMarkAttendance, mViewTotalAttendance, mViewProfile;
 
     private DatabaseManager databaseManager;
+
+    Button mViewStudentList;
+    Button mAddNewStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_home_page);
+        setContentView(R.layout.activity_teacher_home_page);
 
         activity = this;
         context = getApplicationContext();
@@ -53,18 +56,17 @@ public class StudentHomePage extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.action_bar)));
-            actionBar.setTitle("Student Dashboard");
+            actionBar.setTitle("Teacher Dashboard");
         }
+
 
         databaseManager = new DatabaseManager(this);
 
-        mMarkAttendance = (Button) findViewById(R.id.btn_student_mark_attendance);
-        mViewTotalAttendance = (Button) findViewById(R.id.btn_student_view_total_attendance);
-        mViewProfile = (Button) findViewById(R.id.btn_student_view_profile);
+        mViewStudentList = (Button) findViewById(R.id.btn_teacher_view_student_list);
+        mAddNewStudent = (Button) findViewById(R.id.btn_teacher_add_new_student);
 
 
-        //for marking daily
-        mMarkAttendance.setOnClickListener(new View.OnClickListener() {
+        mViewStudentList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -72,15 +74,8 @@ public class StudentHomePage extends AppCompatActivity {
             }
         });
 
-        mViewTotalAttendance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-
-            }
-        });
-
-        mViewProfile.setOnClickListener(new View.OnClickListener() {
+        mAddNewStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -104,7 +99,7 @@ public class StudentHomePage extends AppCompatActivity {
         if (item.getItemId() == R.id.toolbar_project_logout) {
 //            sessionManager.setLogin(false);
 //            sessionManager.logoutUser();
-            databaseManager.dropStudentTable();
+            databaseManager.dropTeacherTable();
 
             Intent logout = new Intent(getApplicationContext(), Home.class);
             logout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

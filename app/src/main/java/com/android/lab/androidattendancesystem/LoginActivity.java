@@ -29,12 +29,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.lab.androidattendancesystem.activity.TeacherDashboardActivity;
+import com.android.lab.androidattendancesystem.app.AppConfig;
+import com.android.lab.androidattendancesystem.helper.DatabaseManager;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,17 +78,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private View mLoginFormView;
 
+    private DatabaseManager databaseManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        databaseManager = new DatabaseManager(this);
+
+
         // Set up the login form.
-        mEmailView =  findViewById(R.id.email);
-        signup =  findViewById(R.id.signup);
+        mEmailView = findViewById(R.id.email);
+        signup = findViewById(R.id.signup);
 
         populateAutoComplete();
 
-        if(Route.usertype.trim().equals("hod")){
+        if (Route.usertype.trim().equals("hod")) {
             signup.setVisibility(View.GONE);
         }
 
@@ -225,9 +236,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     break;
                 case "std":
-//                    studentLogin(email, password);
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    studentLogin(email, password);
+//                    finish();
+//                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     break;
                 case "tech":
                     teacherLogin(email, password);
@@ -339,25 +350,64 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void teacherLogin(final String email, final String password) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://teamexplora.com/app/teachers_login.php?"+"email="+email+"&password="+password,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.TEACHER_LOGIN_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         showProgress(false);
+
+                        Log.i("888880", response);
+
+                        JSONObject jsonObject = null;
+
                         try {
-                            //converting response to json object
-                            JSONObject obj = new JSONObject(response);
-                            Log.i("888880",response);
-                            //if no error in response
-                            String disp_msg=obj.getString("disp_msg");
-                            if (!obj.getString("err_flag").trim().equals("0")) {
-                                Toast.makeText(getApplicationContext(), disp_msg, Toast.LENGTH_SHORT).show();
-                                JSONObject userJson = obj.getJSONObject("user");
-                                finish();
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                            jsonObject = new JSONObject(response);
+
+                            String errFlag = jsonObject.getString("err_flag");
+                            String dispMsg = jsonObject.getString("disp_msg");
+
+                            if (errFlag.equalsIgnoreCase("1")) {
+
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+
+                                if (jsonArray.length() != 0) {
+
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                                        JSONObject object = jsonArray.getJSONObject(i);
+
+                                        String teacherId = object.getString("teacher_id");
+                                        String teacherName = object.getString("teacher_name");
+                                        String teacherEmail = object.getString("email");
+                                        String teacherMobile = object.getString("mobile");
+                                        String teacherClass = object.getString("class");
+
+                                        if (databaseManager.addTeacher(teacherId, teacherName, teacherEmail, teacherMobile, teacherClass))
+
+                                        {
+                                            Intent home = new Intent(getApplicationContext(), TeacherDashboardActivity.class);
+                                            home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(home);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Inserting Data in LOCAL DB failed.....", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Empty Data.....", Toast.LENGTH_SHORT).show();
+
+                                }
+
+
                             } else {
-                                Toast.makeText(getApplicationContext(), disp_msg, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error......", Toast.LENGTH_SHORT).show();
+
                             }
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -374,6 +424,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("password", password);
+                Log.d("PARAMLIST", params.toString());
                 return params;
             }
         };
@@ -439,42 +490,66 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void studentLogin(final String email, final String password) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "URL",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.STUDENT_LOGIN_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("***RESPOSNSE : ", response);
+
                         showProgress(false);
-                        try {
-                            //converting response to json object
-                            JSONObject obj = new JSONObject(response);
+                       /* try {
 
-                            //if no error in response
-                            if (!obj.getBoolean("error")) {
-                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            JSONObject jsonObject = null;
 
-                                //getting the user from the response
-                                JSONObject userJson = obj.getJSONObject("user");
+                            jsonObject = new JSONObject(response);
 
-                                //creating a new user object
-                                   /* User user = new User(
-                                            userJson.getInt("id"),
-                                            userJson.getString("username"),
-                                            userJson.getString("email"),
-                                            userJson.getString("gender")
-                                    );
+                            String errFlag = jsonObject.getString("err_flag");
+                            String dispMsg = jsonObject.getString("disp_msg");
 
-                                    //storing the user in shared preferences
-                                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
-*/
-                                //starting the profile activity
-                                finish();
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            if (errFlag.equalsIgnoreCase("1")) {
+
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+
+                                if (jsonArray.length() != 0) {
+
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                                        JSONObject object = jsonArray.getJSONObject(i);
+
+                                        String teacherId = object.getString("teacher_id");
+                                        String teacherName = object.getString("teacher_name");
+                                        String teacherEmail = object.getString("email");
+                                        String teacherMobile = object.getString("mobile");
+                                        String teacherClass = object.getString("class");
+
+                                        if (databaseManager.addStudent(teacherId, teacherName, teacherEmail, teacherMobile, teacherClass))
+
+                                        {
+                                            Intent home = new Intent(getApplicationContext(), TeacherDashboardActivity.class);
+                                            home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(home);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Inserting Data in LOCAL DB failed.....", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Empty Data.....", Toast.LENGTH_SHORT).show();
+
+                                }
+
+
                             } else {
-                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error......", Toast.LENGTH_SHORT).show();
+
                             }
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
+                        }*/
                     }
                 },
                 new Response.ErrorListener() {

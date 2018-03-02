@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.lab.androidattendancesystem.app.AppConfig;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -341,7 +342,7 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
     }
 
     public void TeacherSignUpTask(final String name,final String email,final String phone, final String password, final String dclass) {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://teamexplora.com/app/register_teachers.php?"+"name="+name+"&email="+email+"&mobile="+phone+"&password="+password+"&class="+dclass,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.TEACHER_SIGNUP_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -372,8 +373,11 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("name", name);
                 params.put("email", email);
-                params.put("password", password);
+                params.put("mobile",phone);
+                params.put("password",password);
+                params.put("class",dclass);
                 return params;
             }
         };

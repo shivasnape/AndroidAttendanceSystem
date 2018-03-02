@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.lab.androidattendancesystem.app.AppConfig;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -254,17 +255,20 @@ public class StudentSignupActivity extends AppCompatActivity {
             /*http://teamexplora.com/app/student_register.php?
             name=sdsa&regno=asdasddsasd&course=btech&semester=ist
             &email=fffff@a.com&password=sdfsdfsdf&parent_name=kanaram&parent_email=kanar@g.com&class_id=1*/
-            TeacherSignUpTask(name,regno,course,sem, email, password,pname,pemail,phone);
+            TeacherSignUpTask(name, regno, course, sem, email, password, pname, pemail, phone);
 
         }
     }
 
-    public void TeacherSignUpTask(final String name,final String regno,final String course,final String sem, final String email,final String  password,final String pname,final String pemail ,final String phone) {
-        StringRequest stringRequest = new StringRequest(Method.GET, "http://teamexplora.com/app/student_register.php?"+"name="+name+"&regno="+regno+"&course="+course+"&semester="+sem+"&email="+email+"&password="+password+"&parent_name="+pname+"&parent_email="+pemail+"&class_id="+"1"+"&mobile="+phone,
+    public void TeacherSignUpTask(final String name, final String regno, final String course, final String sem, final String email, final String password, final String pname, final String pemail, final String phone) {
+        StringRequest stringRequest = new StringRequest(Method.POST, AppConfig.STUDENT_SIGNUP_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         showProgress(false);
+
+                        Log.i("888880", response);
+
                         try {
                             //converting response to json object
                             JSONObject obj = new JSONObject(response);
@@ -291,8 +295,16 @@ public class StudentSignupActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("name", name);
+                params.put("regno", regno);
+                params.put("course", course);
+                params.put("semester", sem);
                 params.put("email", email);
                 params.put("password", password);
+                params.put("parent_name", pname);
+                params.put("parent_email", pemail);
+                params.put("class_id", "1");
+                params.put("mobile", phone);
                 return params;
             }
         };
@@ -349,8 +361,6 @@ public class StudentSignupActivity extends AppCompatActivity {
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-
-
 
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
