@@ -8,7 +8,8 @@
     android:orientation="vertical"
     android:paddingLeft="25dp"
     android:paddingRight="25dp"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="#fff">
 
     <TextView
         android:layout_width="match_parent"
@@ -16,7 +17,9 @@
         android:layout_weight="0.2"
         android:gravity="center"
         android:text="@string/app_name"
-        android:textSize="28sp" />
+        android:textColor="#2f2399"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
     <Space
         android:layout_width="match_parent"

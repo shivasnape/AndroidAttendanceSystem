@@ -1,13 +1,16 @@
 package com.android.lab.androidattendancesystem.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.lab.androidattendancesystem.R;
 import com.android.lab.androidattendancesystem.model.TeacherDataList;
@@ -75,6 +78,50 @@ public class TeacherListRecyclerAdapter extends RecyclerView.Adapter<TeacherList
         holder.circleImageView.setColorFilter(color);
 
 
+        holder.imageEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        holder.imageDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                dialog.setCancelable(false);
+                dialog.setTitle("Warning");
+                dialog.setMessage("Are You Sure to Delete this Teacher ?");
+                dialog.setNegativeButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+
+                        Toast.makeText(mContext, "Delete Success", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+                dialog.setPositiveButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+
+                        Toast.makeText(mContext, "Not Deleted", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                dialog.show();
+
+
+            }
+        });
     }
 
     private String upperCaseFirst(String value) {

@@ -22,9 +22,9 @@ import android.widget.Toast;
 import com.android.lab.androidattendancesystem.Home;
 import com.android.lab.androidattendancesystem.R;
 import com.android.lab.androidattendancesystem.StudentSignupActivity;
+import com.android.lab.androidattendancesystem.TeacherSignupActivity;
 import com.android.lab.androidattendancesystem.VolleySingleton;
 import com.android.lab.androidattendancesystem.app.AppConfig;
-import com.android.lab.androidattendancesystem.helper.DatabaseManager;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -38,23 +38,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by wesix on 2/3/18.
+ * Created by Shivichu on 02-03-2018.
  */
 
-public class TeacherDashboardActivity extends AppCompatActivity {
-
+public class HODDashboardActivity extends AppCompatActivity {
 
     Activity activity;
     Context context;
 
-    private DatabaseManager databaseManager;
-
-    Button mViewStudentList, mAddNewStudent, mMarkAttendance;
+    android.widget.Button mMarkAttendance, mViewTeacherList, mViewStudentList, mAddNewTeacher, mAddNewStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teacher_home_page);
+        setContentView(R.layout.activity_hod_homepage);
 
         activity = this;
         context = getApplicationContext();
@@ -72,33 +69,43 @@ public class TeacherDashboardActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.action_bar)));
-            actionBar.setTitle("Teacher Dashboard");
+            actionBar.setTitle("HOD Dashboard");
         }
 
 
-        databaseManager = new DatabaseManager(this);
-
-        mMarkAttendance = (Button) findViewById(R.id.btn_teacher_mark_attendance);
-        mViewStudentList = (Button) findViewById(R.id.btn_teacher_view_student_list);
-        mAddNewStudent = (Button) findViewById(R.id.btn_teacher_add_new_student);
+        mMarkAttendance = (android.widget.Button) findViewById(R.id.btn_hod_mark_attendance);
+        mViewTeacherList = (Button) findViewById(R.id.btn_hod_view_teacher_list);
+        mViewStudentList = (Button) findViewById(R.id.btn_hod_view_student_list);
+        mAddNewTeacher = (Button) findViewById(R.id.btn_hod_add_new_teacher);
+        mAddNewStudent = (Button) findViewById(R.id.btn_hod_add_new_student);
 
 
         mMarkAttendance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (AppConfig.TEACHER_ID != 0) {
-                    markTodaysAttendance(AppConfig.TEACHER_ID);
+                if (AppConfig.HOD_ID != 0) {
+                    markTodaysAttendance(AppConfig.HOD_ID);
+
                 }
 
 
             }
         });
 
+
+        mViewTeacherList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+            }
+        });
+
+
         mViewStudentList.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View view) {
 
             }
         });
@@ -106,21 +113,31 @@ public class TeacherDashboardActivity extends AppCompatActivity {
 
         mAddNewStudent.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+
 
                 Intent newStudent = new Intent(getApplicationContext(), StudentSignupActivity.class);
+                newStudent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(newStudent);
+            }
+        });
+
+        mAddNewTeacher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent newStudent = new Intent(getApplicationContext(), TeacherSignupActivity.class);
                 newStudent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(newStudent);
 
             }
         });
 
-
     }
 
-    private void markTodaysAttendance(final int teacherId) {
+    private void markTodaysAttendance(final int hodId) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.TEACHER_MARK_ATTENDANCE_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.HOD_MARK_ATTENDANCE_URL,
 
 
                 new Response.Listener<String>() {
@@ -170,7 +187,7 @@ public class TeacherDashboardActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("teacher_id", String.valueOf(teacherId));
+                params.put("hod_id", String.valueOf(hodId));
                 params.put("function_name", "");
                 Log.d("PARAMLIST", params.toString());
                 return params;
@@ -180,6 +197,7 @@ public class TeacherDashboardActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -195,9 +213,8 @@ public class TeacherDashboardActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.toolbar_project_logout) {
 //            sessionManager.setLogin(false);
 //            sessionManager.logoutUser();
-//            databaseManager.dropTeacherTable();
 
-            AppConfig.TEACHER_ID = 0;
+            AppConfig.HOD_ID = 0;
 
             Intent logout = new Intent(getApplicationContext(), Home.class);
             logout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -208,5 +225,5 @@ public class TeacherDashboardActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-}
 
+}

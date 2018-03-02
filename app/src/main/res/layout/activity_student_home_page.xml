@@ -18,7 +18,9 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
-            android:text="Mark Today's Attendance" />
+            android:background="@color/window_bar"
+            android:text="Mark Today's Attendance"
+            android:textColor="#fff" />
 
 
         <Button
@@ -28,7 +30,9 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
-            android:text="View Total Attendance" />
+            android:background="@color/window_bar"
+            android:text="View Total Attendance"
+            android:textColor="#fff" />
 
 
         <Button
@@ -38,7 +42,9 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
-            android:text="View Profile" />
+            android:background="@color/window_bar"
+            android:text="View Profile"
+            android:textColor="#fff" />
 
     </LinearLayout>
 

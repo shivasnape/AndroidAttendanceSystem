@@ -3,24 +3,31 @@ package com.android.lab.androidattendancesystem;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -68,15 +75,40 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
      */
 
     // UI references.
-    private AutoCompleteTextView edemail, edName, edphone,edclass;
+    private AutoCompleteTextView edemail, edName, edphone, edclass;
     private EditText mPasswordView, mCPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    Activity activity;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_signup);
+
+
+        activity = this;
+        context = getApplicationContext();
+
+        Window window = activity.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(activity, R.color.window_bar));
+        }
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            //setting action bar with custom color defined in colors
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.action_bar)));
+            actionBar.setTitle("Teacher Registration");
+        }
+
+
         // Set up the login form.
         initialize();
         populateAutoComplete();
@@ -193,15 +225,18 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
             mPasswordView.setError("Password miss match");
             focusView = mPasswordView;
             cancel = true;
-        } if (TextUtils.isEmpty(password)) {
+        }
+        if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
-        } if (TextUtils.isEmpty(name)) {
+        }
+        if (TextUtils.isEmpty(name)) {
             edName.setError(getString(R.string.error_field_required));
             focusView = edName;
             cancel = true;
-        }  if (TextUtils.isEmpty(dclass)) {
+        }
+        if (TextUtils.isEmpty(dclass)) {
             edclass.setError(getString(R.string.error_field_required));
             focusView = edclass;
             cancel = true;
@@ -233,7 +268,7 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            TeacherSignUpTask(name,email,phone, password,dclass);
+            TeacherSignUpTask(name, email, phone, password, dclass);
         }
     }
 
@@ -341,7 +376,7 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
         int IS_PRIMARY = 1;
     }
 
-    public void TeacherSignUpTask(final String name,final String email,final String phone, final String password, final String dclass) {
+    public void TeacherSignUpTask(final String name, final String email, final String phone, final String password, final String dclass) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.TEACHER_SIGNUP_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -350,9 +385,9 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
                         try {
                             //converting response to json object
                             JSONObject obj = new JSONObject(response);
-                            Log.i("888880",response);
+                            Log.i("888880", response);
                             //if no error in response
-                            String disp_msg=obj.getString("disp_msg");
+                            String disp_msg = obj.getString("disp_msg");
                             if (obj.getString("err_flag").trim().equals("1")) {
                                 Toast.makeText(getApplicationContext(), disp_msg, Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -375,9 +410,9 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
                 Map<String, String> params = new HashMap<>();
                 params.put("name", name);
                 params.put("email", email);
-                params.put("mobile",phone);
-                params.put("password",password);
-                params.put("class",dclass);
+                params.put("mobile", phone);
+                params.put("password", password);
+                params.put("class", dclass);
                 return params;
             }
         };

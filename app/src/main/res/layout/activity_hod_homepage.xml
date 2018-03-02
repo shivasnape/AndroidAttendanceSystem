@@ -12,7 +12,7 @@
 
 
         <Button
-            android:id="@+id/btn_teacher_mark_attendance"
+            android:id="@+id/btn_hod_mark_attendance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -24,18 +24,41 @@
 
 
         <Button
-            android:id="@+id/btn_teacher_view_student_list"
+            android:id="@+id/btn_hod_view_teacher_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
             android:background="@color/window_bar"
-            android:text="View Student's List"
+            android:text="View Teacher List"
+            android:textColor="#fff" />
+
+
+        <Button
+            android:id="@+id/btn_hod_view_student_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/window_bar"
+            android:text="View Profile"
             android:textColor="#fff" />
 
         <Button
-            android:id="@+id/btn_teacher_add_new_student"
+            android:id="@+id/btn_hod_add_new_teacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/window_bar"
+            android:text="Add New Teacher"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/btn_hod_add_new_student"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -44,7 +67,6 @@
             android:background="@color/window_bar"
             android:text="Add New Student"
             android:textColor="#fff" />
-
 
     </LinearLayout>
 

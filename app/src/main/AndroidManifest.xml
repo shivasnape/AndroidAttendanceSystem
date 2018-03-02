@@ -17,10 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".Home">
+        <activity android:name=".Home"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,21 +29,37 @@
 
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".StudentSignupActivity"
-            android:label="@string/title_activity_signup">
+            android:label="@string/title_activity_signup"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity
             android:name=".TeacherSignupActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".activity.ViewTeacherList"/>
+        <activity android:name=".activity.ViewTeacherList"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.TeacherDashboardActivity"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.HODDashboardActivity"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait"/>
 
     </application>
 
