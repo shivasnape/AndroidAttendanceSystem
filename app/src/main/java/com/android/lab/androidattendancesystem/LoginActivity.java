@@ -29,9 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.lab.androidattendancesystem.activity.TeacherDashboardActivity;
 import com.android.lab.androidattendancesystem.app.AppConfig;
-import com.android.lab.androidattendancesystem.helper.DatabaseManager;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -78,16 +76,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private View mLoginFormView;
 
-    private DatabaseManager databaseManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-        databaseManager = new DatabaseManager(this);
-
 
         // Set up the login form.
         mEmailView = findViewById(R.id.email);
@@ -131,6 +123,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
+
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -384,7 +377,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         String teacherMobile = object.getString("mobile");
                                         String teacherClass = object.getString("class");
 
-                                        if (databaseManager.addTeacher(teacherId, teacherName, teacherEmail, teacherMobile, teacherClass))
+                                        AppConfig.TEACHER_ID = Integer.parseInt(teacherId);
+                                        AppConfig.TRACHER_NAME = teacherName;
+                                        AppConfig.TEACHER_CLASS = teacherClass;
+
+
+                                       /* if (databaseManager.addTeacher(teacherId, teacherName, teacherEmail, teacherMobile, teacherClass))
 
                                         {
                                             Intent home = new Intent(getApplicationContext(), TeacherDashboardActivity.class);
@@ -394,7 +392,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         } else {
                                             Toast.makeText(getApplicationContext(), "Inserting Data in LOCAL DB failed.....", Toast.LENGTH_SHORT).show();
                                         }
-
+*/
                                     }
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Empty Data.....", Toast.LENGTH_SHORT).show();

@@ -12,6 +12,16 @@
 
 
         <Button
+            android:id="@+id/btn_teacher_mark_attendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:text="Mark Today's Attendance" />
+
+
+        <Button
             android:id="@+id/btn_teacher_view_student_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

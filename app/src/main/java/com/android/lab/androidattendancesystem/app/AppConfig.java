@@ -10,7 +10,17 @@ public class AppConfig {
 
     public static String TEACHER_SIGNUP_URL = "http://teamexplora.com/app/register_teachers.php";
     public static String TEACHER_LOGIN_URL = "http://teamexplora.com/app/teachers_login.php";
+    public static String TEACHER_MARK_ATTENDANCE_URL = "";
 
     public static String STUDENT_SIGNUP_URL = "http://teamexplora.com/app/student_register.php";
     public static String STUDENT_LOGIN_URL = "http://teamexplora.com/app/student_login.php";
+
+
+
+    //TEACHER DETAILS;
+    public static int TEACHER_ID = 0;
+    public static String TRACHER_NAME;
+    public static String TEACHER_CLASS;
+
+
 }
