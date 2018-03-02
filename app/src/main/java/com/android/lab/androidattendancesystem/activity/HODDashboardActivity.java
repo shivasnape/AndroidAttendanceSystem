@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.lab.androidattendancesystem.Home;
@@ -47,6 +48,7 @@ public class HODDashboardActivity extends AppCompatActivity {
     Context context;
 
     android.widget.Button mMarkAttendance, mViewTeacherList, mViewStudentList, mAddNewTeacher, mAddNewStudent;
+    TextView tHODName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class HODDashboardActivity extends AppCompatActivity {
         }
 
 
+        tHODName = (TextView) findViewById(R.id.txt_hod_name);
         mMarkAttendance = (android.widget.Button) findViewById(R.id.btn_hod_mark_attendance);
         mViewTeacherList = (Button) findViewById(R.id.btn_hod_view_teacher_list);
         mViewStudentList = (Button) findViewById(R.id.btn_hod_view_student_list);
@@ -80,16 +83,15 @@ public class HODDashboardActivity extends AppCompatActivity {
         mAddNewStudent = (Button) findViewById(R.id.btn_hod_add_new_student);
 
 
+        tHODName.setText("Welcome " + AppConfig.HOD_NAME);
+
         mMarkAttendance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (AppConfig.HOD_ID != 0) {
                     markTodaysAttendance(AppConfig.HOD_ID);
-
                 }
-
-
             }
         });
 
@@ -98,7 +100,9 @@ public class HODDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                Intent viewTeacher = new Intent(getApplicationContext(), ViewTeacherList.class);
+                viewTeacher.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(viewTeacher);
             }
         });
 
@@ -106,6 +110,10 @@ public class HODDashboardActivity extends AppCompatActivity {
         mViewStudentList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent viewTeacher = new Intent(getApplicationContext(), ViewStudentList.class);
+                viewTeacher.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(viewTeacher);
 
             }
         });

@@ -390,7 +390,7 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
                             String disp_msg = obj.getString("disp_msg");
                             if (obj.getString("err_flag").trim().equals("1")) {
                                 Toast.makeText(getApplicationContext(), disp_msg, Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                             } else {
                                 Toast.makeText(getApplicationContext(), disp_msg, Toast.LENGTH_SHORT).show();
                             }

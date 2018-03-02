@@ -10,6 +10,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_hod_name"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Welcome"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:textStyle="bold|italic" />
+
 
         <Button
             android:id="@+id/btn_hod_mark_attendance"
@@ -43,7 +54,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
             android:background="@color/window_bar"
-            android:text="View Profile"
+            android:text="View Student List"
             android:textColor="#fff" />
 
         <Button

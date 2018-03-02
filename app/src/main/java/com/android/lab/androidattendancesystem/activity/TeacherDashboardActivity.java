@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.lab.androidattendancesystem.Home;
@@ -24,7 +25,6 @@ import com.android.lab.androidattendancesystem.R;
 import com.android.lab.androidattendancesystem.StudentSignupActivity;
 import com.android.lab.androidattendancesystem.VolleySingleton;
 import com.android.lab.androidattendancesystem.app.AppConfig;
-import com.android.lab.androidattendancesystem.helper.DatabaseManager;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -47,9 +47,8 @@ public class TeacherDashboardActivity extends AppCompatActivity {
     Activity activity;
     Context context;
 
-    private DatabaseManager databaseManager;
-
     Button mViewStudentList, mAddNewStudent, mMarkAttendance;
+    TextView tTeacherName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +74,12 @@ public class TeacherDashboardActivity extends AppCompatActivity {
             actionBar.setTitle("Teacher Dashboard");
         }
 
-
-        databaseManager = new DatabaseManager(this);
-
+        tTeacherName = (TextView)findViewById(R.id.txt_teacher_name);
         mMarkAttendance = (Button) findViewById(R.id.btn_teacher_mark_attendance);
         mViewStudentList = (Button) findViewById(R.id.btn_teacher_view_student_list);
         mAddNewStudent = (Button) findViewById(R.id.btn_teacher_add_new_student);
 
+        tTeacherName.setText(AppConfig.TEACHER_NAME);
 
         mMarkAttendance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +96,7 @@ public class TeacherDashboardActivity extends AppCompatActivity {
         mViewStudentList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
 
             }

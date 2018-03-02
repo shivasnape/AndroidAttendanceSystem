@@ -36,6 +36,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.lab.androidattendancesystem.activity.HODDashboardActivity;
+import com.android.lab.androidattendancesystem.activity.TeacherDashboardActivity;
 import com.android.lab.androidattendancesystem.app.AppConfig;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -255,9 +257,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             switch (Route.usertype) {
                 case "hod":
-//                    hodLogin(email, password);
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    hodLogin(email, password);
+//                    finish();
+//                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     break;
                 case "std":
                     studentLogin(email, password);
@@ -409,21 +411,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         String teacherClass = object.getString("class");
 
                                         AppConfig.TEACHER_ID = Integer.parseInt(teacherId);
-                                        AppConfig.TRACHER_NAME = teacherName;
+                                        AppConfig.TEACHER_NAME = teacherName;
                                         AppConfig.TEACHER_CLASS = teacherClass;
 
+                                        finish();
+                                        startActivity(new Intent(getApplicationContext(), TeacherDashboardActivity.class));
 
-                                       /* if (databaseManager.addTeacher(teacherId, teacherName, teacherEmail, teacherMobile, teacherClass))
-
-                                        {
-                                            Intent home = new Intent(getApplicationContext(), TeacherDashboardActivity.class);
-                                            home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            startActivity(home);
-                                            finish();
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), "Inserting Data in LOCAL DB failed.....", Toast.LENGTH_SHORT).show();
-                                        }
-*/
                                     }
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Empty Data.....", Toast.LENGTH_SHORT).show();
@@ -435,7 +428,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 Toast.makeText(getApplicationContext(), "Error......", Toast.LENGTH_SHORT).show();
 
                             }
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -462,39 +454,63 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void hodLogin(final String email, final String password) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "URL",
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.HOD_LOGIN_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+                        Log.d("***HID DRESPONSE : ", response);
+
                         showProgress(false);
                         try {
-                            //converting response to json object
-                            JSONObject obj = new JSONObject(response);
 
-                            //if no error in response
-                            if (!obj.getBoolean("error")) {
-                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            JSONObject jsonObject = null;
 
-                                //getting the user from the response
-                                JSONObject userJson = obj.getJSONObject("user");
+                            jsonObject = new JSONObject(response);
 
-                                //creating a new user object
-                                   /* User user = new User(
-                                            userJson.getInt("id"),
-                                            userJson.getString("username"),
-                                            userJson.getString("email"),
-                                            userJson.getString("gender")
-                                    );
+                            String errFlag = jsonObject.getString("err_flag");
+                            String dispMsg = jsonObject.getString("disp_msg");
 
-                                    //storing the user in shared preferences
-                                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
-*/
-                                //starting the profile activity
-                                finish();
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            if (errFlag.equalsIgnoreCase("1")) {
+
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+
+                                if (jsonArray.length() != 0) {
+
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                                        JSONObject object = jsonArray.getJSONObject(i);
+
+                                        String hodId = object.getString("id");
+                                        String name = object.getString("name");
+                                        String email = object.getString("email");
+                                        String mobile = object.getString("mobile");
+                                        String dept = object.getString("department");
+
+                                        AppConfig.HOD_ID = Integer.parseInt(hodId);
+                                        AppConfig.HOD_NAME = name;
+                                        AppConfig.HOD_EMAIL = email;
+                                        AppConfig.HOD_MOBILE = mobile;
+                                        AppConfig.HOD_DEPARTMENT = dept;
+
+                                        finish();
+                                        startActivity(new Intent(getApplicationContext(), HODDashboardActivity.class));
+
+                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Empty Data.....", Toast.LENGTH_SHORT).show();
+
+                                }
+
+
                             } else {
-                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error......", Toast.LENGTH_SHORT).show();
+
                             }
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
