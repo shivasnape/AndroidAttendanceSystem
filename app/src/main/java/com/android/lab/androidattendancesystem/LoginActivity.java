@@ -39,6 +39,7 @@ import android.widget.Toast;
 import com.android.lab.androidattendancesystem.activity.HODDashboardActivity;
 import com.android.lab.androidattendancesystem.activity.TeacherDashboardActivity;
 import com.android.lab.androidattendancesystem.app.AppConfig;
+import com.android.lab.androidattendancesystem.utils.SessionManager;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -88,6 +89,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     Activity activity;
     Context context;
 
+    private SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +115,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.action_bar)));
             actionBar.setTitle("Enter Login Credentials");
         }
+
+        sessionManager = new SessionManager(this);
 
 
         // Set up the login form.
@@ -414,6 +419,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         AppConfig.TEACHER_NAME = teacherName;
                                         AppConfig.TEACHER_CLASS = teacherClass;
 
+                                        sessionManager.setLogin(true);
+                                        sessionManager.setLoginData(Integer.parseInt(teacherId),teacherName,"teacher");
+
+
                                         finish();
                                         startActivity(new Intent(getApplicationContext(), TeacherDashboardActivity.class));
 
@@ -495,6 +504,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         AppConfig.HOD_MOBILE = mobile;
                                         AppConfig.HOD_DEPARTMENT = dept;
 
+                                        sessionManager.setLogin(true);
+                                        sessionManager.setLoginData(Integer.parseInt(hodId),name,"hod");
+
                                         finish();
                                         startActivity(new Intent(getApplicationContext(), HODDashboardActivity.class));
 
@@ -542,59 +554,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Log.d("***RESPOSNSE : ", response);
 
                         showProgress(false);
-                       /* try {
 
-                            JSONObject jsonObject = null;
-
-                            jsonObject = new JSONObject(response);
-
-                            String errFlag = jsonObject.getString("err_flag");
-                            String dispMsg = jsonObject.getString("disp_msg");
-
-                            if (errFlag.equalsIgnoreCase("1")) {
-
-                                JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-
-                                if (jsonArray.length() != 0) {
-
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                                        JSONObject object = jsonArray.getJSONObject(i);
-
-                                        String teacherId = object.getString("teacher_id");
-                                        String teacherName = object.getString("teacher_name");
-                                        String teacherEmail = object.getString("email");
-                                        String teacherMobile = object.getString("mobile");
-                                        String teacherClass = object.getString("class");
-
-                                        if (databaseManager.addStudent(teacherId, teacherName, teacherEmail, teacherMobile, teacherClass))
-
-                                        {
-                                            Intent home = new Intent(getApplicationContext(), TeacherDashboardActivity.class);
-                                            home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            startActivity(home);
-                                            finish();
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), "Inserting Data in LOCAL DB failed.....", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    }
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Empty Data.....", Toast.LENGTH_SHORT).show();
-
-                                }
-
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Error......", Toast.LENGTH_SHORT).show();
-
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
                     }
                 },
                 new Response.ErrorListener() {

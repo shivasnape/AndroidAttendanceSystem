@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.lab.androidattendancesystem.R;
+import com.android.lab.androidattendancesystem.model.StudentDataList;
 import com.android.lab.androidattendancesystem.model.TeacherDataList;
 
 import java.util.List;
@@ -21,63 +22,65 @@ import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by wesix on 2/3/18.
+ * Created by wesix on 3/3/18.
  */
 
-public class TeacherListRecyclerAdapter extends RecyclerView.Adapter<TeacherListRecyclerAdapter.MyViewHolder> {
+public class StudentListRecyclerAdapter extends RecyclerView.Adapter<StudentListRecyclerAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<TeacherDataList> itemList;
+    private List<StudentDataList> itemList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView circleImageView;
-        TextView tTeacherShortCode, tProjectName;
-        TextView tTeacherName, tTeacherAttendance, tTeacherClass;
+        TextView tStudentShortCode, tProjectName;
+        TextView tStudentName, tStudentAttendance, tStudentMobile;
         ImageView imageEdit, imageDelete;
 
         public MyViewHolder(View view) {
             super(view);
 
-            circleImageView = (CircleImageView) view.findViewById(R.id.ci);
-            tTeacherShortCode = (TextView) view.findViewById(R.id.recycler_teacher_short_code);
+            circleImageView = (CircleImageView) view.findViewById(R.id.cis);
+            tStudentShortCode = (TextView) view.findViewById(R.id.recycler_student_short_code);
 
-            tTeacherName = (TextView) view.findViewById(R.id.recycler_teacher_name);
-            tTeacherAttendance = (TextView) view.findViewById(R.id.recycler_teacher_attendance);
-            tTeacherClass = (TextView) view.findViewById(R.id.recycler_teacher_class);
-            imageEdit = (ImageView) view.findViewById(R.id.recycler_teacher_img_edit);
-            imageDelete = (ImageView) view.findViewById(R.id.recycler_teacher_img_delete);
+            tStudentName = (TextView) view.findViewById(R.id.recycler_student_name);
+            tStudentAttendance = (TextView) view.findViewById(R.id.recycler_student_attendance);
+            tStudentMobile = (TextView) view.findViewById(R.id.recycler_student_mobile);
+            imageEdit = (ImageView) view.findViewById(R.id.recycler_student_img_edit);
+            imageDelete = (ImageView) view.findViewById(R.id.recycler_student_img_delete);
 
         }
     }
 
-    public TeacherListRecyclerAdapter(Context mContext, List<TeacherDataList> itemList) {
+    public StudentListRecyclerAdapter(Context mContext, List<StudentDataList> itemList) {
         this.mContext = mContext;
         this.itemList = itemList;
     }
 
 
     @Override
-    public TeacherListRecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_project_layout, parent, false);
+    public StudentListRecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_student_list_layout, parent, false);
 
-        return new TeacherListRecyclerAdapter.MyViewHolder(itemView);
+        return new StudentListRecyclerAdapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final TeacherListRecyclerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final StudentListRecyclerAdapter.MyViewHolder holder, int position) {
 
-        TeacherDataList data = itemList.get(position);
+        StudentDataList data = itemList.get(position);
 
 
-        holder.tTeacherName.setText(data.getsTeacherName());
+        holder.tStudentName.setText(data.getsStudentName());
+
+        holder.tStudentMobile.setText(data.getsRegNo());
 
 
         Random rnd = new Random();
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         holder.circleImageView.setColorFilter(color);
 
-        holder.tTeacherShortCode.setText(String.valueOf(upperCaseFirst(data.getsTeacherName())));
+        holder.tStudentShortCode.setText(String.valueOf(upperCaseFirst(data.getsStudentName())));
 
 
         holder.imageEdit.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +98,7 @@ public class TeacherListRecyclerAdapter extends RecyclerView.Adapter<TeacherList
                 AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                 dialog.setCancelable(false);
                 dialog.setTitle("Warning");
-                dialog.setMessage("Are You Sure to Delete this Teacher ?");
+                dialog.setMessage("Are You Sure to Delete this Student ?");
                 dialog.setNegativeButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

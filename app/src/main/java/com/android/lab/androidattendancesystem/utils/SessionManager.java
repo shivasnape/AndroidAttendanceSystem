@@ -27,6 +27,7 @@ public class SessionManager {
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
     private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_ID = "id";
+    private static final String KEY_USER_TYPE = "user_type";
 
     public SessionManager(Context context) {
         this._context = context;
@@ -42,10 +43,11 @@ public class SessionManager {
         Log.d(TAG, "User login session modified!");
     }
 
-    public void setLoginData(int id, String userName ) {
+    public void setLoginData(int id, String userName, String userType) {
 
         editor.putInt(KEY_ID, id);
         editor.putString(KEY_USER_NAME, userName);
+        editor.putString(KEY_USER_TYPE, userType);
 
         editor.commit();
 

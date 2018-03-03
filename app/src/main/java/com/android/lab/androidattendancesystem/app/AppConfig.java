@@ -1,5 +1,7 @@
 package com.android.lab.androidattendancesystem.app;
 
+import com.android.lab.androidattendancesystem.utils.SessionManager;
+
 /**
  * Created by wesix on 2/3/18.
  */
@@ -31,6 +33,10 @@ public class AppConfig {
     public static String HOD_EMAIL;
     public static String HOD_MOBILE;
     public static String HOD_DEPARTMENT;
+
+    //STUDENT DETAILS;
+    public static int STUDENT_ID = 0;
+    public static String STUDENT_NAME;
 
 
 }

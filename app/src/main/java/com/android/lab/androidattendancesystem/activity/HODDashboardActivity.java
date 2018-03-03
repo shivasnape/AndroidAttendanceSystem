@@ -3,6 +3,7 @@ package com.android.lab.androidattendancesystem.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.android.lab.androidattendancesystem.StudentSignupActivity;
 import com.android.lab.androidattendancesystem.TeacherSignupActivity;
 import com.android.lab.androidattendancesystem.VolleySingleton;
 import com.android.lab.androidattendancesystem.app.AppConfig;
+import com.android.lab.androidattendancesystem.utils.SessionManager;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -49,6 +51,11 @@ public class HODDashboardActivity extends AppCompatActivity {
 
     android.widget.Button mMarkAttendance, mViewTeacherList, mViewStudentList, mAddNewTeacher, mAddNewStudent;
     TextView tHODName;
+
+    private static final String PREF_NAME = "SessionManager";
+
+    private SessionManager sessionManager;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +81,8 @@ public class HODDashboardActivity extends AppCompatActivity {
             actionBar.setTitle("HOD Dashboard");
         }
 
+
+        sessionManager = new SessionManager(this);
 
         tHODName = (TextView) findViewById(R.id.txt_hod_name);
         mMarkAttendance = (android.widget.Button) findViewById(R.id.btn_hod_mark_attendance);
@@ -223,6 +232,9 @@ public class HODDashboardActivity extends AppCompatActivity {
 //            sessionManager.logoutUser();
 
             AppConfig.HOD_ID = 0;
+
+            sessionManager.setLogin(false);
+            sessionManager.logoutUser();
 
             Intent logout = new Intent(getApplicationContext(), Home.class);
             logout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

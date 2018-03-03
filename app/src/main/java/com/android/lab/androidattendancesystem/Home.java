@@ -4,17 +4,25 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.android.lab.androidattendancesystem.activity.HODDashboardActivity;
+import com.android.lab.androidattendancesystem.activity.StudentHomePage;
+import com.android.lab.androidattendancesystem.activity.TeacherDashboardActivity;
+import com.android.lab.androidattendancesystem.app.AppConfig;
+import com.android.lab.androidattendancesystem.utils.SessionManager;
 
 public class Home extends AppCompatActivity {
 
@@ -24,6 +32,11 @@ public class Home extends AppCompatActivity {
 
     Activity activity;
     Context context;
+
+    private static final String PREF_NAME = "SessionManager";
+
+    private SessionManager sessionManager;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,46 @@ public class Home extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.action_bar)));
             actionBar.setTitle("Select User Type");
+        }
+
+
+        sessionManager = new SessionManager(this);
+        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        if (sessionManager.isLoggedIn()) {
+
+            // Reading from SharedPreferences
+            String value = sharedPreferences.getString("user_type", "");
+
+            switch (value) {
+
+                case "hod":
+                    int id = sharedPreferences.getInt("id",0);
+                    String name = sharedPreferences.getString("user_name","");
+                    AppConfig.HOD_ID = id;
+                    AppConfig.HOD_NAME = name;
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), HODDashboardActivity.class));
+                    break;
+                case "teacher":
+                    int id2 = sharedPreferences.getInt("id",0);
+                    String name2 = sharedPreferences.getString("user_name","");
+                    AppConfig.TEACHER_ID = id2;
+                    AppConfig.TEACHER_NAME = name2;
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), TeacherDashboardActivity.class));
+                    break;
+                case "student":
+                    int id3 = sharedPreferences.getInt("id",0);
+                    String name3 = sharedPreferences.getString("user_name","");
+                    AppConfig.STUDENT_ID = id3;
+                    AppConfig.STUDENT_NAME = name3;
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), StudentHomePage.class));
+                    break;
+
+            }
+
         }
 
 

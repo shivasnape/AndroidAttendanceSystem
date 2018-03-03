@@ -121,7 +121,6 @@ public class TeacherDashboardActivity extends AppCompatActivity {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.TEACHER_MARK_ATTENDANCE_URL,
 
-
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

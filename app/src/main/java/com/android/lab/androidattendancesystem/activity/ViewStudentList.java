@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Window;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import com.android.lab.androidattendancesystem.R;
 import com.android.lab.androidattendancesystem.VolleySingleton;
+import com.android.lab.androidattendancesystem.adapter.StudentListRecyclerAdapter;
+import com.android.lab.androidattendancesystem.adapter.TeacherListRecyclerAdapter;
 import com.android.lab.androidattendancesystem.app.AppConfig;
 import com.android.lab.androidattendancesystem.model.StudentDataList;
 import com.android.volley.AuthFailureError;
@@ -24,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,6 +47,7 @@ public class ViewStudentList extends AppCompatActivity {
 
     RecyclerView studentRecyclerView;
     List<StudentDataList> studentDataList = new ArrayList<>();
+    StudentListRecyclerAdapter studentListRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,15 @@ public class ViewStudentList extends AppCompatActivity {
         }
 
 
+        studentRecyclerView = (RecyclerView) findViewById(R.id.student_list_recycler_view);
+
+        studentListRecyclerAdapter = new StudentListRecyclerAdapter(this, studentDataList);
+
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        studentRecyclerView.setLayoutManager(linearLayoutManager1);
+        studentRecyclerView.setAdapter(studentListRecyclerAdapter);
+
+
         initView();
 
     }
@@ -91,6 +105,40 @@ public class ViewStudentList extends AppCompatActivity {
 
                             if (errFlag.equalsIgnoreCase("1")) {
 
+
+                                JSONArray studeentArray = jsonObject.getJSONArray("data");
+
+                                if (studeentArray.length() != 0) {
+
+                                    for (int i = 0; i < studeentArray.length(); i++) {
+
+
+                                        JSONObject studentObject = studeentArray.getJSONObject(i);
+
+                                        StudentDataList data = new StudentDataList();
+
+                                        data.setiStudentId(studentObject.getInt("student_id"));
+                                        data.setsStudentName("Shiva");
+                                        data.setsRegNo(studentObject.getString("reg_no"));
+                                        data.setsCourse(studentObject.getString("course"));
+                                        data.setsSemester(studentObject.getString("semester"));
+                                        data.setsEmail(studentObject.getString("email"));
+                                        data.setsMobile(studentObject.getString("mobile"));
+                                        data.setsParentName(studentObject.getString("parent_name"));
+                                        data.setsParenEmail(studentObject.getString("parent_email"));
+
+                                        studentDataList.add(data);
+
+                                    }
+
+                                    studentListRecyclerAdapter.notifyDataSetChanged();
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Student List Empty.....", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
 
                             }
 
