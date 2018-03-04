@@ -106,7 +106,7 @@ public class StudentHomePage extends AppCompatActivity {
 //            sessionManager.logoutUser();
             databaseManager.dropStudentTable();
 
-            Intent logout = new Intent(getApplicationContext(), Home.class);
+            Intent logout = new Intent(getApplicationContext(), SelectOption.class);
             logout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(logout);
             finish();

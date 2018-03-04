@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.android.lab.androidattendancesystem.R;
 import com.android.lab.androidattendancesystem.VolleySingleton;
 import com.android.lab.androidattendancesystem.adapter.StudentListRecyclerAdapter;
-import com.android.lab.androidattendancesystem.adapter.TeacherListRecyclerAdapter;
 import com.android.lab.androidattendancesystem.app.AppConfig;
 import com.android.lab.androidattendancesystem.model.StudentDataList;
 import com.android.volley.AuthFailureError;
@@ -49,6 +48,8 @@ public class ViewStudentList extends AppCompatActivity {
     List<StudentDataList> studentDataList = new ArrayList<>();
     StudentListRecyclerAdapter studentListRecyclerAdapter;
 
+    private String sClassId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,8 @@ public class ViewStudentList extends AppCompatActivity {
             actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.action_bar)));
             actionBar.setTitle("Student's List");
         }
+
+        sClassId = getIntent().getExtras().getString("class_id");
 
 
         studentRecyclerView = (RecyclerView) findViewById(R.id.student_list_recycler_view);
@@ -159,6 +162,7 @@ public class ViewStudentList extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+//                params.put("class_id", sClassId);
                 params.put("class_id", "2");
                 return params;
             }

@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.lab.androidattendancesystem.Home;
 import com.android.lab.androidattendancesystem.R;
 import com.android.lab.androidattendancesystem.StudentSignupActivity;
 import com.android.lab.androidattendancesystem.VolleySingleton;
@@ -42,7 +41,6 @@ import java.util.Map;
  */
 
 public class TeacherDashboardActivity extends AppCompatActivity {
-
 
     Activity activity;
     Context context;
@@ -97,7 +95,10 @@ public class TeacherDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
+                Intent viewStudent = new Intent(getApplicationContext(), ViewStudentList.class);
+                viewStudent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                viewStudent.putExtra("class_id", AppConfig.TEACHER_CLASS);
+                startActivity(viewStudent);
 
             }
         });
@@ -197,7 +198,7 @@ public class TeacherDashboardActivity extends AppCompatActivity {
 
             AppConfig.TEACHER_ID = 0;
 
-            Intent logout = new Intent(getApplicationContext(), Home.class);
+            Intent logout = new Intent(getApplicationContext(), SelectOption.class);
             logout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(logout);
             finish();

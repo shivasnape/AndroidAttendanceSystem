@@ -420,7 +420,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         AppConfig.TEACHER_CLASS = teacherClass;
 
                                         sessionManager.setLogin(true);
-                                        sessionManager.setLoginData(Integer.parseInt(teacherId),teacherName,"teacher");
+                                        sessionManager.setLoginData(Integer.parseInt(teacherId),teacherName,"teacher",teacherClass);
 
 
                                         finish();
@@ -505,7 +505,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         AppConfig.HOD_DEPARTMENT = dept;
 
                                         sessionManager.setLogin(true);
-                                        sessionManager.setLoginData(Integer.parseInt(hodId),name,"hod");
+                                        sessionManager.setLoginData(Integer.parseInt(hodId),name,"hod",dept);
 
                                         finish();
                                         startActivity(new Intent(getApplicationContext(), HODDashboardActivity.class));

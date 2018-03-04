@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -76,16 +75,20 @@ public class Home extends AppCompatActivity {
                 case "hod":
                     int id = sharedPreferences.getInt("id",0);
                     String name = sharedPreferences.getString("user_name","");
+                    String dept = sharedPreferences.getString("class_id","");
                     AppConfig.HOD_ID = id;
                     AppConfig.HOD_NAME = name;
+                    AppConfig.HOD_DEPARTMENT = dept;
                     finish();
                     startActivity(new Intent(getApplicationContext(), HODDashboardActivity.class));
                     break;
                 case "teacher":
                     int id2 = sharedPreferences.getInt("id",0);
                     String name2 = sharedPreferences.getString("user_name","");
+                    String classId = sharedPreferences.getString("class_id","");
                     AppConfig.TEACHER_ID = id2;
                     AppConfig.TEACHER_NAME = name2;
+                    AppConfig.TEACHER_CLASS = classId;
                     finish();
                     startActivity(new Intent(getApplicationContext(), TeacherDashboardActivity.class));
                     break;

@@ -1,6 +1,7 @@
 package com.android.lab.androidattendancesystem.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,16 +13,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.lab.androidattendancesystem.Home;
 import com.android.lab.androidattendancesystem.R;
 import com.android.lab.androidattendancesystem.StudentSignupActivity;
 import com.android.lab.androidattendancesystem.TeacherSignupActivity;
@@ -37,7 +41,9 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,6 +62,10 @@ public class HODDashboardActivity extends AppCompatActivity {
 
     private SessionManager sessionManager;
     private SharedPreferences sharedPreferences;
+
+    private Spinner spinner;
+    private Button mSubmit;
+    String sCLASSID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,9 +130,68 @@ public class HODDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent viewTeacher = new Intent(getApplicationContext(), ViewStudentList.class);
-                viewTeacher.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(viewTeacher);
+                LayoutInflater inflater = LayoutInflater.from(HODDashboardActivity.this);
+                final View alertLayout = inflater.inflate(R.layout.select_student_class, null);
+
+                final Dialog dialog = new Dialog(HODDashboardActivity.this);
+                dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(alertLayout);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                dialog.setCancelable(false);
+                dialog.show();
+
+                spinner = (Spinner) dialog.findViewById(R.id.spinner_select_class);
+                mSubmit = (Button) dialog.findViewById(R.id.btn_submit_class);
+
+                List<String> categories = new ArrayList<String>();
+                categories.add("--Select From List--");
+                categories.add("1");
+                categories.add("2");
+                categories.add("3");
+                categories.add("4");
+                categories.add("5");
+                categories.add("6");
+
+                final ArrayAdapter<String> dataadapter = new ArrayAdapter<String>(HODDashboardActivity.this, R.layout.spin_layout, R.id.textView, categories);
+
+                spinner.setAdapter(dataadapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        String value = (String) spinner.getItemAtPosition(i);
+
+                        sCLASSID = value;
+
+                        Toast.makeText(getApplicationContext(), "You selected" + value, Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                mSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+                        if (sCLASSID.equalsIgnoreCase("--Select From List--")) {
+                            Toast.makeText(getApplicationContext(), "Please Select Class...", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            dialog.dismiss();
+
+                            Intent viewStudent = new Intent(getApplicationContext(), ViewStudentList.class);
+                            viewStudent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            viewStudent.putExtra("class_id", sCLASSID);
+                            startActivity(viewStudent);
+                        }
+                    }
+                });
 
             }
         });
@@ -236,7 +305,7 @@ public class HODDashboardActivity extends AppCompatActivity {
             sessionManager.setLogin(false);
             sessionManager.logoutUser();
 
-            Intent logout = new Intent(getApplicationContext(), Home.class);
+            Intent logout = new Intent(getApplicationContext(), SelectOption.class);
             logout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(logout);
             finish();
