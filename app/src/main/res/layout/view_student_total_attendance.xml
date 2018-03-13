@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    app:cardBackgroundColor="#fff"
+    app:cardCornerRadius="6dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#e9e9e9">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Total Attendance"
+                    android:textColor="@color/window_bar"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txt_stud_total_attendance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="0"
+                android:textColor="#000"
+                android:textSize="45sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_std_at_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:background="@color/action_bar"
+            android:text="Dismiss"
+            android:textColor="#fff" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

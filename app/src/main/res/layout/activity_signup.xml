@@ -152,6 +152,28 @@
                 android:backgroundTint="#1f304d"
                 android:textColorHint="#757575">
 
+                <EditText
+                    android:id="@+id/edt_student_aadhar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#1f304d"
+                    android:hint="Aadhar Number"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#454545"
+                    android:textColorHint="#757575"
+                    android:textSize="14sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#1f304d"
+                android:textColorHint="#757575">
+
                 <AutoCompleteTextView
                     android:id="@+id/panme"
                     android:layout_width="match_parent"
@@ -190,7 +212,8 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColorHint="#757575">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"

@@ -2,6 +2,7 @@ package com.android.lab.androidattendancesystem.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,6 +68,8 @@ public class HODDashboardActivity extends AppCompatActivity {
     private Button mSubmit;
     String sCLASSID;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +95,7 @@ public class HODDashboardActivity extends AppCompatActivity {
         }
 
 
+        progressDialog = new ProgressDialog(this);
         sessionManager = new SessionManager(this);
 
         tHODName = (TextView) findViewById(R.id.txt_hod_name);
@@ -223,6 +227,9 @@ public class HODDashboardActivity extends AppCompatActivity {
 
     private void markTodaysAttendance(final int hodId) {
 
+        progressDialog.setMessage("Marking Your Attendance");
+        progressDialog.show();
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.HOD_MARK_ATTENDANCE_URL,
 
 
@@ -230,6 +237,11 @@ public class HODDashboardActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
+                        Log.d("HOD Attendance",response);
+
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
 
                         JSONObject jsonObject = null;
 
@@ -261,6 +273,10 @@ public class HODDashboardActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+
                         if (error.toString() != null) {
                             Toast.makeText(getApplicationContext(), "Error : " + error.toString(), Toast.LENGTH_SHORT).show();
                         }
@@ -274,7 +290,6 @@ public class HODDashboardActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("hod_id", String.valueOf(hodId));
-                params.put("function_name", "");
                 Log.d("PARAMLIST", params.toString());
                 return params;
             }

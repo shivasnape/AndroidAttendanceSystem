@@ -49,7 +49,7 @@
                 android:textColorHint="#757575">
 
                 <AutoCompleteTextView
-                    android:id="@+id/name"
+                    android:id="@+id/edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name"
@@ -69,7 +69,7 @@
                 android:textColorHint="#757575">
 
                 <AutoCompleteTextView
-                    android:id="@+id/mobile"
+                    android:id="@+id/edit_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Mobile"
@@ -90,7 +90,7 @@
                 android:textColorHint="#757575">
 
                 <AutoCompleteTextView
-                    android:id="@+id/dclass"
+                    android:id="@+id/edit_dclass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Class"
@@ -111,7 +111,7 @@
                 android:textColorHint="#757575">
 
                 <AutoCompleteTextView
-                    android:id="@+id/email"
+                    android:id="@+id/edit_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
@@ -130,11 +130,14 @@
                 android:backgroundTint="#1f304d"
                 android:textColorHint="#757575">
 
-                <AutoCompleteTextView
-                    android:id="@+id/qualification"
+                <EditText
+                    android:id="@+id/edit_qualification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Qualification"
+                    android:imeActionId="6"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified"
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -151,58 +154,10 @@
                 android:textColorHint="#757575">
 
                 <EditText
-                    android:id="@+id/edt_teacher_aadhar"
+                    android:id="@+id/edit_t_aadhar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Aadhar Number"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="#454545"
-                    android:textColorHint="#757575"
-                    android:textSize="14sp" />
-
-            </android.support.design.widget.TextInputLayout>
-
-
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#1f304d"
-                android:textColorHint="#757575">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Password"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="#454545"
-                    android:textColorHint="#757575"
-                    android:textSize="14sp" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#1f304d"
-                android:textColorHint="#757575">
-
-                <EditText
-                    android:id="@+id/cpassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Confirm password"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
@@ -216,14 +171,14 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/btn_edit_submit"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textColor="#fff"
                 android:background="@color/window_bar"
                 android:text="Submit"
+                android:textColor="#fff"
                 android:textStyle="bold" />
 
         </LinearLayout>

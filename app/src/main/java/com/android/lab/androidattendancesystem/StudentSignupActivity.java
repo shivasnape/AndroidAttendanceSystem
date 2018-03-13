@@ -69,7 +69,7 @@ public class StudentSignupActivity extends AppCompatActivity {
 
     // UI references.
     private AutoCompleteTextView edemail, edName, edphone, edregno, edsem, edcourse, edpname, edpemail;
-    private EditText mPasswordView, mCPasswordView;
+    private EditText mPasswordView, mCPasswordView,mAadharNo;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -138,6 +138,7 @@ public class StudentSignupActivity extends AppCompatActivity {
         edpname = (AutoCompleteTextView) findViewById(R.id.panme);
         edpemail = (AutoCompleteTextView) findViewById(R.id.pemail);
         edpname = (AutoCompleteTextView) findViewById(R.id.panme);
+        mAadharNo = (EditText)findViewById(R.id.edt_student_aadhar);
         mPasswordView = (EditText) findViewById(R.id.password);
         mCPasswordView = (EditText) findViewById(R.id.cpassword);
 
@@ -205,6 +206,7 @@ public class StudentSignupActivity extends AppCompatActivity {
         String course = edcourse.getText().toString();
         String sem = edsem.getText().toString();
         String phone = edphone.getText().toString();
+        String aadharNo = mAadharNo.getText().toString();
         String pname = edpname.getText().toString();
         String pemail = edpemail.getText().toString();
         String cpassword = mCPasswordView.getText().toString();
@@ -286,12 +288,12 @@ public class StudentSignupActivity extends AppCompatActivity {
             /*http://teamexplora.com/app/student_register.php?
             name=sdsa&regno=asdasddsasd&course=btech&semester=ist
             &email=fffff@a.com&password=sdfsdfsdf&parent_name=kanaram&parent_email=kanar@g.com&class_id=1*/
-            TeacherSignUpTask(name, regno, course, sem, email, password, pname, pemail, phone);
+            TeacherSignUpTask(name, regno, course, sem, email, password, pname, pemail, phone,aadharNo);
 
         }
     }
 
-    public void TeacherSignUpTask(final String name, final String regno, final String course, final String sem, final String email, final String password, final String pname, final String pemail, final String phone) {
+    public void TeacherSignUpTask(final String name, final String regno, final String course, final String sem, final String email, final String password, final String pname, final String pemail, final String phone, final String aadharNo) {
         StringRequest stringRequest = new StringRequest(Method.POST, AppConfig.STUDENT_SIGNUP_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -331,11 +333,13 @@ public class StudentSignupActivity extends AppCompatActivity {
                 params.put("course", course);
                 params.put("semester", sem);
                 params.put("email", email);
+                params.put("aadhar",aadharNo);
                 params.put("password", password);
                 params.put("parent_name", pname);
                 params.put("parent_email", pemail);
                 params.put("class_id", "1");
                 params.put("mobile", phone);
+                Log.d("Reg Params :", String.valueOf(params));
                 return params;
             }
         };

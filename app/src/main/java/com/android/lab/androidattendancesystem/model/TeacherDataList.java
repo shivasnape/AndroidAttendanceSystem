@@ -7,13 +7,14 @@ package com.android.lab.androidattendancesystem.model;
 public class TeacherDataList {
 
     int iTeacherId;
-    String sTeacherName,sTeacherClass,sTeacherEmail,sTeacherMobile,sTeacherTotalAttendance;
+    String sTeacherName,sTeacherClass,sTeacherEmail,sTeacherMobile,sTeacherTotalAttendance,sQualification,sAadharNo,sTotalAttendance;
 
     public TeacherDataList(){
 
     }
 
-    public TeacherDataList(int teacherId, String name, String tClass, String email, String mobile, String totalAttendance){
+    public TeacherDataList(int teacherId, String name, String tClass, String email, String mobile, String totalAttendance, String qualification,
+                           String aadharNo, String attendance){
 
         this.iTeacherId = teacherId;
         this.sTeacherName = name;
@@ -21,6 +22,9 @@ public class TeacherDataList {
         this.sTeacherEmail = email;
         this.sTeacherMobile = mobile;
         this.sTeacherTotalAttendance = totalAttendance;
+        this.sQualification = qualification;
+        this.sAadharNo = aadharNo;
+        this.sTeacherTotalAttendance = attendance;
     }
 
     public int getiTeacherId() {
@@ -69,5 +73,29 @@ public class TeacherDataList {
 
     public void setsTeacherTotalAttendance(String sTeacherTotalAttendance) {
         this.sTeacherTotalAttendance = sTeacherTotalAttendance;
+    }
+
+    public String getsQualification() {
+        return sQualification;
+    }
+
+    public void setsQualification(String sQualification) {
+        this.sQualification = sQualification;
+    }
+
+    public String getsAadharNo() {
+        return sAadharNo;
+    }
+
+    public void setsAadharNo(String sAadharNo) {
+        this.sAadharNo = sAadharNo;
+    }
+
+    public String getsTotalAttendance() {
+        return sTotalAttendance;
+    }
+
+    public void setsTotalAttendance(String sTotalAttendance) {
+        this.sTotalAttendance = sTotalAttendance;
     }
 }

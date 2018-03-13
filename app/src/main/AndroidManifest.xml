@@ -74,6 +74,28 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat" />
 
+        <activity
+            android:name=".activity.StudentHomePage"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat" />
+
+        <activity
+            android:name=".activity.EditStudentDetails"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat" />
+
+        <activity android:name=".activity.EditTeacherActivity"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.StudentProfile"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.TeacherProfile"
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

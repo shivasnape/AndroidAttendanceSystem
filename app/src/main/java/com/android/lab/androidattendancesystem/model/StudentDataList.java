@@ -7,13 +7,14 @@ package com.android.lab.androidattendancesystem.model;
 public class StudentDataList {
 
     int iStudentId;
-    String sRegNo, sStudentName, sCourse, sSemester, sEmail, sMobile, sParentName, sParenEmail;
+    String sRegNo, sStudentName, sCourse, sSemester, sEmail, sMobile, sParentName, sParenEmail,sAadharNo,sTotalAttendance;
 
     public StudentDataList() {
 
     }
 
-    public StudentDataList(int id, String regNo, String name, String course, String semester, String email, String mobile, String parent_name, String parent_email) {
+    public StudentDataList(int id, String regNo, String name, String course, String semester, String email, String mobile, String parent_name, String parent_email,
+                           String aadhar, String attendance) {
 
         this.iStudentId = id;
         this.sRegNo = regNo;
@@ -24,6 +25,8 @@ public class StudentDataList {
         this.sMobile = mobile;
         this.sParentName = parent_name;
         this.sParenEmail = parent_email;
+        this.sAadharNo = aadhar;
+        this.sTotalAttendance = attendance;
     }
 
     public int getiStudentId() {
@@ -96,5 +99,21 @@ public class StudentDataList {
 
     public void setsParenEmail(String sParenEmail) {
         this.sParenEmail = sParenEmail;
+    }
+
+    public String getsAadharNo() {
+        return sAadharNo;
+    }
+
+    public void setsAadharNo(String sAadharNo) {
+        this.sAadharNo = sAadharNo;
+    }
+
+    public String getsTotalAttendance() {
+        return sTotalAttendance;
+    }
+
+    public void setsTotalAttendance(String sTotalAttendance) {
+        this.sTotalAttendance = sTotalAttendance;
     }
 }

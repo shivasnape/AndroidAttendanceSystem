@@ -48,7 +48,7 @@ public class ViewStudentList extends AppCompatActivity {
     List<StudentDataList> studentDataList = new ArrayList<>();
     StudentListRecyclerAdapter studentListRecyclerAdapter;
 
-    private String sClassId;
+    public static String sClassId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +129,8 @@ public class ViewStudentList extends AppCompatActivity {
                                         data.setsMobile(studentObject.getString("mobile"));
                                         data.setsParentName(studentObject.getString("parent_name"));
                                         data.setsParenEmail(studentObject.getString("parent_email"));
+                                        data.setsAadharNo(studentObject.getString("aadhar_number"));
+                                        data.setsTotalAttendance(studentObject.getString("total_attendance"));
 
                                         studentDataList.add(data);
 

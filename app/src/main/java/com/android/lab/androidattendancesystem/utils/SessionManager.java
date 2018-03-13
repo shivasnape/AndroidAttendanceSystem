@@ -29,6 +29,10 @@ public class SessionManager {
     private static final String KEY_ID = "id";
     private static final String KEY_USER_TYPE = "user_type";
     private static final String KEY_CLASS_ID = "class_id";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PH = "ph";
+    private static final String KEY_COURSE = "course";
+    private static final String KEY_QUALIIFICATION = "qualification";
 
     public SessionManager(Context context) {
         this._context = context;
@@ -44,12 +48,15 @@ public class SessionManager {
         Log.d(TAG, "User login session modified!");
     }
 
-    public void setLoginData(int id, String userName, String userType, String classId) {
+    public void setLoginData(int id, String userName, String userType, String classId, String email, String ph, String qualification) {
 
         editor.putInt(KEY_ID, id);
         editor.putString(KEY_USER_NAME, userName);
         editor.putString(KEY_USER_TYPE, userType);
-        editor.putString(KEY_CLASS_ID,classId);
+        editor.putString(KEY_CLASS_ID, classId);
+        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_PH, ph);
+        editor.putString(KEY_QUALIIFICATION,qualification);
 
         editor.commit();
 

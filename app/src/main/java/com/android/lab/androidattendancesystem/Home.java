@@ -73,9 +73,9 @@ public class Home extends AppCompatActivity {
             switch (value) {
 
                 case "hod":
-                    int id = sharedPreferences.getInt("id",0);
-                    String name = sharedPreferences.getString("user_name","");
-                    String dept = sharedPreferences.getString("class_id","");
+                    int id = sharedPreferences.getInt("id", 0);
+                    String name = sharedPreferences.getString("user_name", "");
+                    String dept = sharedPreferences.getString("class_id", "");
                     AppConfig.HOD_ID = id;
                     AppConfig.HOD_NAME = name;
                     AppConfig.HOD_DEPARTMENT = dept;
@@ -83,20 +83,30 @@ public class Home extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), HODDashboardActivity.class));
                     break;
                 case "teacher":
-                    int id2 = sharedPreferences.getInt("id",0);
-                    String name2 = sharedPreferences.getString("user_name","");
-                    String classId = sharedPreferences.getString("class_id","");
+                    int id2 = sharedPreferences.getInt("id", 0);
+                    String name2 = sharedPreferences.getString("user_name", "");
+                    String classId = sharedPreferences.getString("class_id", "");
+                    String email = sharedPreferences.getString("email", "");
+                    String mobile = sharedPreferences.getString("ph", "");
                     AppConfig.TEACHER_ID = id2;
                     AppConfig.TEACHER_NAME = name2;
                     AppConfig.TEACHER_CLASS = classId;
+                    AppConfig.TEACHER_EMAIL = email;
+                    AppConfig.TEACHER_MOBILE = mobile;
                     finish();
                     startActivity(new Intent(getApplicationContext(), TeacherDashboardActivity.class));
                     break;
                 case "student":
-                    int id3 = sharedPreferences.getInt("id",0);
-                    String name3 = sharedPreferences.getString("user_name","");
+                    int id3 = sharedPreferences.getInt("id", 0);
+                    String name3 = sharedPreferences.getString("user_name", "");
+                    String email2 = sharedPreferences.getString("email", "");
+                    String mobile2 = sharedPreferences.getString("ph", "");
+                    String classID = sharedPreferences.getString("class_id", "");
                     AppConfig.STUDENT_ID = id3;
                     AppConfig.STUDENT_NAME = name3;
+                    AppConfig.STUDENT_EMAIL = email2;
+                    AppConfig.STUDENT_MOBILE = mobile2;
+                    AppConfig.STUDENT_COURSE = classID;
                     finish();
                     startActivity(new Intent(getApplicationContext(), StudentHomePage.class));
                     break;
@@ -109,54 +119,53 @@ public class Home extends AppCompatActivity {
         hod = (Button) findViewById(R.id.hod);
         std = (Button) findViewById(R.id.std);
         tech = (Button) findViewById(R.id.teach);
-        if (Route.BASE_URL == null) {
+//        if (Route.BASE_URL == null) {
 
-            dialog = new Dialog(this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_port_ip);
-            dialog.setCancelable(false);
-            dialog.show();
-            di_but_submit = (Button) dialog.findViewById(R.id.l_but_click);
-            di_edt_ip = (EditText) dialog.findViewById(R.id.l_edt_ip);
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_port_ip);
+        dialog.setCancelable(false);
+        dialog.show();
+        di_but_submit = (Button) dialog.findViewById(R.id.l_but_click);
+        di_edt_ip = (EditText) dialog.findViewById(R.id.l_edt_ip);
 
-            di_but_submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Route.BASE_URL = di_edt_ip.getText().toString();
+        di_but_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Route.BASE_URL = di_edt_ip.getText().toString();
 //                    WebClient.BASE_URL = di_edt_ip.getText().toString();
-                    dialog.dismiss();
-                }
-            });
+                dialog.dismiss();
+            }
+        });
 
-            hod.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Route.usertype = "hod";
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                }
-            });
-            std.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Route.usertype = "std";
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                }
-            });
-            tech.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Route.usertype = "tech";
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                }
-            });
+        hod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Route.usertype = "hod";
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
+        std.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Route.usertype = "std";
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
+        tech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Route.usertype = "tech";
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
 
 
-        }
     }
 }

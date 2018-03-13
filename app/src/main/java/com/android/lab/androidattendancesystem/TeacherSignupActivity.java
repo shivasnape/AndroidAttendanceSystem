@@ -75,8 +75,8 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
      */
 
     // UI references.
-    private AutoCompleteTextView edemail, edName, edphone, edclass;
-    private EditText mPasswordView, mCPasswordView;
+    private AutoCompleteTextView edemail, edName, edphone, edclass, edQualification;
+    private EditText mPasswordView, mCPasswordView,mAadharNo;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -140,7 +140,9 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
         edName = (AutoCompleteTextView) findViewById(R.id.name);
         edphone = (AutoCompleteTextView) findViewById(R.id.mobile);
         edclass = (AutoCompleteTextView) findViewById(R.id.dclass);
+        edQualification = (AutoCompleteTextView) findViewById(R.id.qualification);
 
+        mAadharNo = (EditText)findViewById(R.id.edt_teacher_aadhar);
         mCPasswordView = (EditText) findViewById(R.id.cpassword);
         mPasswordView = (EditText) findViewById(R.id.password);
 
@@ -207,7 +209,9 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
         String email = edemail.getText().toString();
         String name = edName.getText().toString();
         String phone = edphone.getText().toString();
+        String qualification = edQualification.getText().toString();
         String dclass = edclass.getText().toString();
+        String aadharNo = mAadharNo.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -246,6 +250,11 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
             focusView = edphone;
             cancel = true;
         }
+        if (TextUtils.isEmpty(qualification)) {
+            edphone.setError(getString(R.string.error_field_required));
+            focusView = edQualification;
+            cancel = true;
+        }
         if (!isPhoneValid(phone)) {
             edphone.setError("This mobile number is invalid ");
             focusView = edphone;
@@ -268,7 +277,7 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            TeacherSignUpTask(name, email, phone, password, dclass);
+            TeacherSignUpTask(name, email, phone, qualification, password, dclass,aadharNo);
         }
     }
 
@@ -376,7 +385,7 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
         int IS_PRIMARY = 1;
     }
 
-    public void TeacherSignUpTask(final String name, final String email, final String phone, final String password, final String dclass) {
+    public void TeacherSignUpTask(final String name, final String email, final String phone, final String qualification, final String password, final String dclass, final String aadharNo) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.TEACHER_SIGNUP_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -411,6 +420,8 @@ public class TeacherSignupActivity extends AppCompatActivity implements LoaderCa
                 params.put("name", name);
                 params.put("email", email);
                 params.put("mobile", phone);
+                params.put("qualification", qualification);
+                params.put("aadhar",aadharNo);
                 params.put("password", password);
                 params.put("class", dclass);
                 return params;

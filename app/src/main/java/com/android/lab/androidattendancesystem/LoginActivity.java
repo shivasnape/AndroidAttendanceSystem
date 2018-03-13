@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.lab.androidattendancesystem.activity.HODDashboardActivity;
+import com.android.lab.androidattendancesystem.activity.StudentHomePage;
 import com.android.lab.androidattendancesystem.activity.TeacherDashboardActivity;
 import com.android.lab.androidattendancesystem.app.AppConfig;
 import com.android.lab.androidattendancesystem.utils.SessionManager;
@@ -139,11 +140,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                         break;
-                    case "tech":
+                    /*case "tech":
                         Intent in = new Intent(getApplicationContext(), TeacherSignupActivity.class);
                         in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(in);
-                        break;
+                        break;*/
+
+                    default:
+                        Toast.makeText(getApplicationContext(), "Please Contact HOD", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -414,13 +418,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         String teacherEmail = object.getString("email");
                                         String teacherMobile = object.getString("mobile");
                                         String teacherClass = object.getString("class");
+                                        String aadharNo = object.getString("aadhar_number");
+                                        String qualification  = object.getString("qualification");
 
                                         AppConfig.TEACHER_ID = Integer.parseInt(teacherId);
                                         AppConfig.TEACHER_NAME = teacherName;
                                         AppConfig.TEACHER_CLASS = teacherClass;
+                                        AppConfig.TEACHER_EMAIL = teacherEmail;
+                                        AppConfig.TEACHER_MOBILE = teacherMobile;
 
                                         sessionManager.setLogin(true);
-                                        sessionManager.setLoginData(Integer.parseInt(teacherId),teacherName,"teacher",teacherClass);
+                                        sessionManager.setLoginData(Integer.parseInt(teacherId), teacherName, "teacher", teacherClass,teacherEmail,teacherMobile,qualification);
 
 
                                         finish();
@@ -505,7 +513,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         AppConfig.HOD_DEPARTMENT = dept;
 
                                         sessionManager.setLogin(true);
-                                        sessionManager.setLoginData(Integer.parseInt(hodId),name,"hod",dept);
+                                        sessionManager.setLoginData(Integer.parseInt(hodId), name, "hod", dept,email,mobile,"");
 
                                         finish();
                                         startActivity(new Intent(getApplicationContext(), HODDashboardActivity.class));
@@ -555,6 +563,61 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                         showProgress(false);
 
+                        JSONObject jsonObject = null;
+
+                        try {
+                            jsonObject = new JSONObject(response);
+
+                            String errFlag = jsonObject.getString("err_flag");
+                            String dispMsg = jsonObject.getString("disp_msg");
+
+                            if (errFlag.equalsIgnoreCase("1")) {
+
+
+                                JSONArray studentArray = jsonObject.getJSONArray("data");
+
+                                if (studentArray.length() != 0) {
+
+                                    for (int i = 0; i < studentArray.length(); i++) {
+
+                                        JSONObject object = studentArray.getJSONObject(i);
+
+                                        String studentId = object.getString("student_id");
+                                        String name = object.getString("name");
+                                        String email = object.getString("email");
+                                        String mobile = object.getString("mobile");
+                                        String course = object.getString("course");
+                                        String aadharNo = object.getString("aadhar_number");
+
+                                        AppConfig.STUDENT_ID = Integer.parseInt(studentId);
+                                        AppConfig.STUDENT_NAME = name;
+                                        AppConfig.STUDENT_EMAIL = email;
+                                        AppConfig.STUDENT_MOBILE = mobile;
+                                        AppConfig.STUDENT_COURSE = course;
+
+                                        sessionManager.setLogin(true);
+                                        sessionManager.setLoginData(Integer.parseInt(studentId), name, "student", course,email,mobile,"");
+
+                                        finish();
+                                        startActivity(new Intent(getApplicationContext(), StudentHomePage.class));
+
+                                    }
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Student Details Empty", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -568,6 +631,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("password", password);
+                Log.d("Param List", String.valueOf(params));
                 return params;
             }
         };

@@ -123,6 +123,9 @@ public class ViewTeacherList extends AppCompatActivity {
                                         data.setsTeacherName(object.getString("teacher_name"));
                                         data.setsTeacherMobile(object.getString("mobile"));
                                         data.setsTeacherEmail(object.getString("email"));
+                                        data.setsQualification(object.getString("qualification"));
+                                        data.setsAadharNo(object.getString("aadhar_number"));
+                                        data.setsTotalAttendance(object.getString("total_attendance"));
 
                                         teacherDataList.add(data);
 

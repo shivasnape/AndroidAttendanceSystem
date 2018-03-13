@@ -35,6 +35,18 @@
 
 
         <Button
+            android:id="@+id/btn_teacher_view_attendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/window_bar"
+            android:text="View Total Attendance"
+            android:textColor="#fff" />
+
+
+        <Button
             android:id="@+id/btn_teacher_view_student_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,6 +69,16 @@
             android:textColor="#fff" />
 
 
+        <Button
+            android:id="@+id/btn_teacher_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/window_bar"
+            android:text="View Profile"
+            android:textColor="#fff" />
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
